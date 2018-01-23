@@ -16,12 +16,10 @@ ALightSwitch::ALightSwitch()
 	// This will give a larger area for the player to look at with the line trace
 	InteractCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("Interact Collision"));
 	InteractCollision->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
-	InteractCollision->SetWorldLocation(FVector(0.0f, 0.0f, 0.0f));
-	InteractCollision->SetCollisionProfileName("BlockAll");
+	InteractCollision->SetWorldLocation(FVector(0.0f, 0.0f, 0.0f)); // Issue with collision spawning means both locations had to be set before attaching to root
+	InteractCollision->SetCollisionProfileName("BlockAll"); // block all collision
 	InteractCollision->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-	InteractCollision->SetWorldScale3D(FVector(0.4f, 0.4f, 0.5f));
-
-	
+	InteractCollision->SetWorldScale3D(FVector(0.4f, 0.4f, 0.5f)); // Set the scale of the collision to match the mesh
 }
 
 void ALightSwitch::BeginPlay()
@@ -58,7 +56,7 @@ void ALightSwitch::ToggleLights()
 void ALightSwitch::EnablePower()
 {
 	bIsPowered = true; // Power is on
-	ToggleLights(); // Toggle lights to now be on or off
+	ToggleLights(); // Toggle lights to now be on or off if they were already interacted with
 }
 
 // When the light switch is interacted with the lights are toggled on or off
